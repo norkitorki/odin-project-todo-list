@@ -5,7 +5,167 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Odin Project: Todo List</title>
 </head>
-<body>
+<body class="p-3 bg-dark">
   <noscript style="font-size: 1.1rem;font-weight: bold;">This website requires Javascript. Please consider turning it on.</noscript>
+
+  <h1 class="text-center"><span class="badge bg-primary">Todooos</span></h1>
+  <div class="my-2">
+    <button class="btn btn-outline-info" id="backup" title="Backup projects">Backup</button>
+    <button class="btn btn-outline-info" id="import" data-bs-toggle="modal" data-bs-target="#main-modal">Import</button>
+    <button class="btn btn-outline-danger" id="clear">Clear</button>
+    <button class="btn btn-outline-info fs-3 d-block my-4" id="new-project" title="Create project" data-bs-toggle="modal" data-bs-target="#main-modal">Create Project</button>
+  </div>
+
+  <main>
+    <ul class="projects px-0 my-2 d-flex gap-4 flex-wrap"></ul>
+  </main>
+
+  <div class="modal modal-lg fade" id="main-modal" tabindex="-1" aria-labelledby="main-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close main modal"></button>
+        </div>
+        <div class="modal-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <template id="import-template">
+    <form action="" method="post" class="import-form" name="Import file" novalidate>
+      <div class="my-3">
+        <label for="file-input" class="form-label">File</label>
+        <input type="file" name="file" id="file-input" class="form-control" aria-describedby="fileHelp" required>
+        <div class="invalid-feedback">
+          File cannot be empty.
+        </div>
+        <p class="form-text">Select a file which you would like to import</p>
+        <p class="form-text">Note: that your currently saved projects will be discarded</p>
+      </div>
+      <button type="submit" class="btn btn-primary">Import</button>
+    </form>
+  </template>
+
+  <template id="project-template">
+    <li class="list-group-item d-flex flex-column flex-grow-0">
+      <button class="project-trigger fs-5 btn btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#project-" aria-expanded="false" aria-controls="multiCollapseExample2">
+        <span class="project-title"></span>
+        <i class="project-caret bi bi-caret-up-fill"></i>
+      </button>
+      <div>
+        <div class="project-collapse collapse multi-collapse project-content text-center" id="project-">
+          <div class="project-actions btn-group d-inline-block">
+            <button class="btn edit-project" title="Edit project" data-bs-toggle="modal" data-bs-target="#main-modal">
+              <i class="bi bi-toggles2 text-light"></i>
+            </button>
+            <button class="btn delete-project" title="Delete project">
+              <i class="bi bi-trash-fill text-danger"></i>
+            </button>
+            <button class="btn btn-outline-info add-task d-block my-2" title="Add task" data-bs-toggle="modal" data-bs-target="#main-modal">Add Task</button>
+          </div>
+          <p class="project-description text-light"></p>
+        </div>
+      </div>
+    </li>
+  </template>
+
+  <template id="new-project-template">
+    <form action="" method="post" class="project-form" name="Project" novalidate>
+      <div class="my-3">
+        <label for="project-title" class="form-label">Title</label>
+        <input type="text" name="title" id="project-title" class="form-control" required>
+        <div class="invalid-feedback">
+          Title cannot be empty.
+        </div>
+      </div>
+      <div class="my-3">
+        <label for="project-description">Description</label>
+        <textarea name="description" id="project-description" class="form-control" aria-describedby="projectDescriptionHelp"></textarea>
+        <p id="projectDescriptionHelp" class="form-text">The description is optional</p>
+      </div>
+      <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+  </template>
+
+  <template id="task-item-template">
+    <div class="list-group my-2">
+      <button class="task-trigger btn btn-outline-info position-relative fs-6 p-3 my-2" data-bs-toggle="modal" data-bs-target="#main-modal">
+        <span class="task-title"></span>
+        <span class="task-priority-badge badge position-absolute top-0 start-50 translate-middle"></span>
+        <span class="task-time-badge badge bg-primary position-absolute top-100 start-50 translate-middle"></span>
+      </button>
+    </div>
+  </template>
+
+  <template id="task-template">
+    <div class="d-flex align-items-center badge bg-dark">
+      <div class="task-actions">
+        <button type="button" class="btn btn-sm edit-task" title="Edit task">
+          <i class="bi bi-toggles2 text-light"></i>
+        </button>
+        <button type="button" class="btn btn-sm delete-task" title="Delete task">
+          <i class="bi bi-trash3 text-danger"></i>
+        </button>
+      </div>
+      <div class="fs-6">
+        <p class="my-2 d-inline-block">| Priority <span class="task-priority badge"></span> |</p>
+        <div class="task-date d-inline-block"></div>
+      </div>
+    </div>
+    <p class="task-description my-2"></p>
+    <div class="task-checkboxes my-2 d-flex flex-column gap-1 flex-wrap"></div>
+    <div class="task-date fs-6 badge bg-dark"></div>
+
+    <template id="task-checkbox-template">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="task-">
+        <label class="form-check-label" for="task-"></label>
+      </div>
+    </template>
+  </template>
+
+  <template id="new-task-template">
+    <form action="" method="post" class="task-form" name="Task" novalidate>
+      <div class="my-3">
+        <label for="task-title" class="form-label">Title</label>
+        <input type="text" name="title" id="task-title" class="form-control" required>
+        <div class="invalid-feedback">
+          Title cannot be empty.
+        </div>
+      </div>
+      <div class="my-3">
+        <label for="task-description" class="form-label">Description</label>
+        <textarea name="description" id="task-description" class="form-control"></textarea>
+        <p id="taskDescriptionHelp" class="form-text">The description is optional</p>
+      </div>
+      <div class="my-3">
+        <label for="task-checklist" class="form-label">Checkbox Items</label>
+        <input type="text" name="checklist" id="task-checklist" class="form-control"></input>
+        <p id="taskChecklistHelp" class="form-text">Comma seperated list of checkbox items</p>
+      </div>
+      <div class="my-3">
+        <label for="task-dueDate" class="form-label">Date and Time</label>
+        <input type="date" name="dueDate" id="task-dueDate" class="form-control" required>
+        <div class="invalid-feedback">
+          Date and time cannot be empty.
+        </div>
+      </div>
+      <div class="my-3">
+        <label for="task-time" class="form-label">Time</label>
+        <input type="time" name="time" id="task-time" class="form-control">
+      </div>
+      <div class="my-3">
+        <label for="task-priority" class="form-label">Priority</label>
+        <select name="priority" id="task-priority" class="form-select" aria-label="Select task priority level" required>
+          <option value="low">Low</option>
+          <option value="normal" selected>Normal</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+      <input type="hidden" name="parentId" id="task-parentId">
+      <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+  </template>
 </body>
 </html>

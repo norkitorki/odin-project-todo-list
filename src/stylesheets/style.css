@@ -1,0 +1,7 @@
+.project-actions > button:hover,
+.project-actions > button:focus,
+.task-actions > button:hover,
+.task-actions > button:focus {
+  transition: font-size .2s ease;
+  font-size: 1.15rem;
+}

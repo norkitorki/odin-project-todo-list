@@ -5,3 +5,8 @@
   transition: font-size .2s ease;
   font-size: 1.15rem;
 }
+
+.project-description,
+.task-description {
+  white-space: pre-wrap;
+}

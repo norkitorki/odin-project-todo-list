@@ -10,3 +10,7 @@
 .task-description {
   white-space: pre-wrap;
 }
+
+@media (max-width: 990px) {
+  .task-banner { flex-direction: column; }
+}

@@ -62,7 +62,6 @@ export const TaskDisplayController = (container, ModalDisplay, Alert) => {
         timeBadge.classList.add('bg-danger');
       }
 
-      // button.classList.add(`btn-${priorityClasses[task.priority]}`);
       button.addEventListener('click', object.renderTask.bind(task, timeBadge.textContent, updateCallbacks));
       button.title = `${task.priority} priority: ${timeBadge.textContent}`;
 

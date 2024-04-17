@@ -1,3 +1,5 @@
+.modal-title { overflow: auto; }
+
 .project-actions > button:hover,
 .project-actions > button:focus,
 .task-actions > button:hover,

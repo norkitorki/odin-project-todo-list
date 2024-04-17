@@ -9,6 +9,13 @@ export const TaskDisplayController = (container, ModalDisplay, Alert) => {
     object.container.innerHTML = '';
   }
 
+  const printTimeDifference = (task) => {
+    const taskDate   = new Date(`${task.dueDate}T${task.time || '00:00'}`),
+          difference = formatDistance(taskDate, new Date());
+
+    return `${taskDate < new Date() ? `${difference} ago` : `in ${difference}`}`;
+  }
+
   const createTaskCheckboxes = (template, task) => {
     const checkboxesContainer = template.querySelector('.task-checkboxes'),
           checkboxTemplate    = template.querySelector('#task-checkbox-template');
@@ -53,16 +60,14 @@ export const TaskDisplayController = (container, ModalDisplay, Alert) => {
         priorityBadge.classList.add(`bg-${priorityClasses[task.priority]}`);
       }
 
-      taskDate     = new Date(`${task.dueDate}T${task.time || '00:00'}`);
-      timeDistance = formatDistance(taskDate, new Date());
-      timeBadge.textContent = `${taskDate < new Date() ? `${timeDistance} ago` : `in ${timeDistance}`}`;
+      timeBadge.textContent = printTimeDifference(task);
 
-      if (taskDate < new Date()) {
+      if (timeBadge.textContent.includes('ago')) {
         timeBadge.classList.remove('bg-dark');
         timeBadge.classList.add('bg-danger');
       }
 
-      button.addEventListener('click', object.renderTask.bind(task, timeBadge.textContent, updateCallbacks));
+      button.addEventListener('click', object.renderTask.bind(task, updateCallbacks));
       button.title = `${task.priority} priority: ${timeBadge.textContent}`;
 
       taskList.appendChild(template);
@@ -71,7 +76,7 @@ export const TaskDisplayController = (container, ModalDisplay, Alert) => {
     return taskList;
   }
 
-  object.renderTask = function(timeDistance, updateCallbacks) {
+  object.renderTask = function(updateCallbacks) {
     const template    = document.getElementById('task-template').content.cloneNode(true),
           editBtn     = template.querySelector('.edit-task'),
           deleteBtn   = template.querySelector('.delete-task'),
@@ -79,7 +84,7 @@ export const TaskDisplayController = (container, ModalDisplay, Alert) => {
           date        = template.querySelector('.task-date'),
           priority    = template.querySelector('.task-priority');
 
-    editBtn.addEventListener('click', object.renderTaskForm.bind(this, null, null, updateCallbacks ));
+    editBtn.addEventListener('click', object.renderTaskForm.bind(this, null, null, updateCallbacks));
 
     deleteBtn.addEventListener('click', () => {
       if (confirm('Are you sure that you would like to delete this task?')) {
@@ -90,13 +95,14 @@ export const TaskDisplayController = (container, ModalDisplay, Alert) => {
       }
     })
 
-    date.textContent = `${this.dueDate} ${this.time} (${timeDistance})`;
+    date.textContent = `${this.dueDate} ${this.time} (${printTimeDifference(this)})`;
 
     priority.textContent = this.priority;
     priority.classList.add(`bg-${priorityClasses[this.priority]}`);
 
     description.textContent = this.description;
     if (this.description === '') description.style.display = 'none';
+    
     createTaskCheckboxes(template, this);
 
     ModalDisplay.render(this.title, template);

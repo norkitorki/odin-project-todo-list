@@ -18,9 +18,7 @@ export const ProjectDisplayController = (container, TaskDisplay, ModalDisplay, A
     document.querySelector(`.project-trigger[data-bs-target="#project-${projectId}"]`).click();
   }
 
-  const updateCaretOrientation = (caret, template) => {
-    const collapseElement = template.querySelector('.project-collapse');
-
+  const updateCaretOrientation = (caret, collapseElement) => {
     collapseElement.addEventListener('show.bs.collapse', () => {
       caret.classList.value = `project-caret bi bi-caret-down-fill`;
     })
@@ -57,7 +55,7 @@ export const ProjectDisplayController = (container, TaskDisplay, ModalDisplay, A
       projectTrigger.dataset['bsTarget'] = `#${projectContent.id}`;
       projectTitle.textContent = project.title;
 
-      updateCaretOrientation(caret, clonedTemplate);
+      updateCaretOrientation(caret, projectContent);
 
       editBtn.addEventListener('click', object.renderForm.bind(this, 'new-project-template', project, callbacks));
       deleteBtn.addEventListener('click', deleteProject.bind(project, projects, updateCallbacks));

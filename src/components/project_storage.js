@@ -61,9 +61,6 @@ export const ProjectStorage = (Tasks) => {
 
   projectMethods.update = function(attributes = {}) {
     Object.keys(attributes).forEach(attr => this[attr] = attributes[attr]);
-
-    // if (title) this.title = title;
-    // if (description) this.description = description;
     object.store();
   }
 

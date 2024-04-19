@@ -10,7 +10,7 @@ export const ProjectDisplayController = (container, TaskDisplay, ModalDisplay, A
       const idx = projects.findIndex(project => project === this);
       if (idx) projects.splice(idx, 1);
       this.delete();
-      object.list(projects, callbacks);
+      callbacks.forEach(callback => callback.call());
     }
   }
 

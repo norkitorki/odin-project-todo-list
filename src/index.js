@@ -35,8 +35,9 @@ const initialize = () => {
   Tasks.import();
   ProjectDisplay.list(Projects.all(), 'project-template', Tasks.add, [ initialize, ModalDisplay.hide ]);
 
-  const buttons = [backupProjectsButton, clearProjectsButton];
-  buttons.forEach(btn => btn.disabled = Projects.size === 0 && Tasks.size === 0);
+  if (Projects.size === 0 && Tasks.size === 0) {
+    Projects.add({ title: 'Default Project', description: 'This is the default project' });
+  }
 };
 
 const staticCallbacks = (message) => {

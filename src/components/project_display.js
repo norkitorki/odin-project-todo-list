@@ -92,35 +92,5 @@ export const ProjectDisplayController = (container, TaskDisplay, ModalDisplay, A
     ModalDisplay.render('Import Projects', template);
   }
 
-  object.renderTaskForm = (projectId, construktor, callbacks) => {
-    const template        = document.getElementById('new-task-template').content.cloneNode(true),
-          form            = template.querySelector('form'),
-          taskValidations = { validations: ['task-title', 'task-dueDate'] };
-
-    if (this && this.title) {
-      heading.textContent = `Edit Task '${this.title}'`;
-            
-      let input;
-      ['title', 'description', 'dueDate', 'time', 'priority', 'parentId'].forEach(col => {
-        input = form.getElementById(`task-${col}`);
-        if (input.nodeName === 'SELECT') {
-          input.selectedIndex = ['low', 'normal', 'high'].indexOf(this.priority);
-        } else {
-          input.value = this[col];
-        }
-      })
-      
-      form.querySelector('button[type="submit"]').textContent = 'Update';
-  
-      FormController(form, this.update.bind(this), callbacks, taskValidations);
-      ModalDisplay.render('Update Task', template);
-    } else {
-      template.getElementById('task-parentId').value = projectId;
-      
-      FormController(form, construktor, callbacks.concat([ triggerProjectClick.bind(this, projectId) ]), taskValidations);
-      ModalDisplay.render('Create Task', template);
-    }
-  }
-
   return object;
 };

@@ -15,6 +15,7 @@ module.exports = {
     title: 'Odin-Project: Todo List',
     template: './src/home.html',
     inject: 'head',
+    filename: path.resolve(__dirname, 'index.html'),
   })],
   module: {
     rules: [

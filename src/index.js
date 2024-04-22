@@ -69,7 +69,7 @@ const renderNewProjectTemplate = () => {
   ProjectDisplay.renderForm('new-project-template', null, callbacks, Projects.add);
 };
 
-// Event listeners
+/* Event listeners */
 
 importProjectsButton.addEventListener('click', renderImportTemplate);
 backupProjectsButton.addEventListener('click', backupProjects);

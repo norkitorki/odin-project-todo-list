@@ -1,5 +1,5 @@
 import './stylesheets/styles.scss';
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap-icons/font/bootstrap-icons.scss';
 
 import { ModalDisplayController   } from './components/modal_display_controller';
 import { ProjectStorage           } from './components/project_storage';

@@ -1,1 +1,20 @@
 @import "bootstrap/scss/bootstrap";
+
+.modal-title { overflow: auto; }
+
+.project-actions > button:hover,
+.project-actions > button:focus,
+.task-actions > button:hover,
+.task-actions > button:focus {
+  transition: font-size .2s ease;
+  font-size: 1.15rem;
+}
+
+.project-description,
+.task-description {
+  white-space: pre-wrap;
+}
+
+@media (max-width: 990px) {
+  .task-banner { flex-direction: column; }
+}
